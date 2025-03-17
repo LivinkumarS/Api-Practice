@@ -1,0 +1,99 @@
+.sign-in {
+  display: flex;
+  min-height: 80vh;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  gap: 15px;
+}
+
+.sign-in > section {
+  max-width: 500px;
+}
+
+.sign-in > .text-field {
+  flex: 1;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  flex-direction: column;
+}
+
+.sign-in > .text-field img {
+  width: 100px;
+}
+
+.sign-in > .text-field > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.sign-in > .input-field {
+  flex: 1;
+  padding: 10px;
+}
+
+.sign-in > .input-field > form {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  align-items: center;
+  justify-content: center;
+}
+
+.sign-in > .input-field > form > div {
+  width: 100%;
+  max-width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+
+.sign-in > .input-field > form > div>label{
+    width: min-content;
+    font-weight: bold;
+  }
+
+.sign-in > .input-field > form > div > input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 3px 3px 3px gray;
+  outline: 0;
+}
+
+.sign-in > .input-field > form > button {
+  background-color: var(--button-color);
+  padding: 10px;
+  font-weight: bold;
+  color: var(--secondary-color);
+  border-radius: 10px;
+  width: 100%;
+  max-width: 300px;
+  cursor: pointer;
+}
+
+
+@media (max-width:700px) {
+    .sign-in{
+        flex-direction: column;
+    }
+}
+
+@media (max-width:370px) {
+    .sign-in > .text-field img{
+        width: 70px;
+    }
+    .sign-in > .text-field>div>h2{
+        font-size: x-large;
+    }
+    .sign-in > .input-field > form>h3{
+        font-size: larger;
+    }
+}
