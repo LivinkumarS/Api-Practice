@@ -4,6 +4,7 @@ import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
 import authRouter from "./routers/authRouter.js";
+import postRouter from "./routers/postRouter.js";
 
 const app = express();
 app.use(cors());
@@ -24,6 +25,7 @@ async function connectDB() {
 connectDB();
 
 app.use("/api/auth", authRouter);
+app.use("/api/post", postRouter);
 
 app.listen(process.env.PORT, () => {
   console.log(`Listening on ${process.env.PORT}`);

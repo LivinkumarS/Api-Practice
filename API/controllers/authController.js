@@ -82,8 +82,6 @@ export const signIn = async (req, res) => {
       process.env.TOKEN_SECRET
     );
 
-    delete existingUser.password;
-
     res
       .cookie("Authorization", `Bearer ${token}`, {
         expires: new Date(Date.now() + 8 * 36000000),
@@ -95,7 +93,11 @@ export const signIn = async (req, res) => {
         success: true,
         token,
         message: "Loggedin successfully",
-        user: existingUser,
+        user: {
+          userId: existingUser._id,
+          email: existingUser.email,
+          verified: existingUser.verified,
+        },
       });
   } catch (error) {
     console.log(error);
