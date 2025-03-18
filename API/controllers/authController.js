@@ -10,6 +10,46 @@ import { doHash, doHashValidation, hmacProcess } from "../utils/hashing.js";
 import jwt from "jsonwebtoken";
 import transport from "../middlewares/sendMail.js";
 
+export const checkSign = async (req, res) => {
+  const { email } = req.user;
+  try {
+    const existingUser = await User.findOne({ email });
+
+    if (existingUser) {
+      const token = jwt.sign(
+        {
+          userId: existingUser._id,
+          email: existingUser.email,
+          verified: existingUser.verified,
+        },
+        process.env.TOKEN_SECRET
+      );
+
+      return res
+        .cookie("Authorization", `Bearer ${token}`, {
+          expires: new Date(Date.now() + 8 * 36000000),
+          httpOnly: process.env.NODE_ENV === "production",
+          secure: process.env.NODE_ENV === "production",
+        })
+        .status(201)
+        .json({
+          success: true,
+          message: "Loggedin successfully",
+          user: {
+            userId: existingUser._id,
+            email: existingUser.email,
+            verified: existingUser.verified,
+          },
+        });
+    }
+    return res
+      .status(401)
+      .json({ success: false, message: "User does not exist" });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const signUp = async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -91,7 +131,6 @@ export const signIn = async (req, res) => {
       .status(201)
       .json({
         success: true,
-        token,
         message: "Loggedin successfully",
         user: {
           userId: existingUser._id,

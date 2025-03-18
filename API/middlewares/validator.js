@@ -23,13 +23,7 @@ export const signInValidator = Joi.object({
     .required()
     .email({ tlds: { allow: ["com", "in"] } }),
 
-  password: Joi.string()
-    .required()
-    .pattern(
-      new RegExp(
-        "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"
-      )
-    ),
+  password: Joi.string().required(),
 });
 
 export const acceptCodeValidator = Joi.object({

@@ -52,6 +52,18 @@
     align-items: center;
     justify-content: center;
     gap: 10px;
+    position: relative;
+  }
+
+  .sign-up > .input-field > form > div>p{
+    position: absolute;
+    left: 0;
+    text-align: center;
+    bottom: -40px;
+    width: 100%;
+
+    font-size: small;
+    color: red;
   }
 
   .sign-up > .input-field > form > div>label{

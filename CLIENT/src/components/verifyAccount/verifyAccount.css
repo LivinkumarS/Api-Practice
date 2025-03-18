@@ -1,0 +1,96 @@
+.verify-acc {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px;
+}
+
+.verify-acc > section {
+  flex: 1;
+  max-width: 500px;
+}
+
+.verify-acc > .input-section > form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  justify-content: start;
+  margin-bottom: 15px;
+}
+
+.verify-acc > .input-section > form > * {
+  width: 100%;
+  max-width: 400px;
+}
+
+.verify-acc > .input-section > form > div {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  gap: 5px;
+}
+
+.verify-acc > .input-section div > input {
+  padding: 10px;
+  outline: 0;
+  box-shadow: 3px 3px 3px gray;
+  border-radius: 10px;
+}
+
+.verify-acc > .input-section > form > .email-cont > input {
+  flex: 1;
+}
+
+.verify-acc > .input-section div > label {
+  width: fit-content;
+}
+
+.verify-acc button {
+  background-color: var(--button-color);
+  color: var(--secondary-color);
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 3px 3px 3px gray;
+}
+
+.verify-acc button:hover {
+  font-weight: bold;
+  box-shadow: 3px 3px 3px gray;
+}
+
+.verify-acc > .input-section > form .doLater {
+  cursor: pointer;
+  color: var(--button-color);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.verify-acc > .input-section > form .doLater > div {
+  cursor: pointer;
+  color: var(--button-color);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.verify-acc > .input-section > form .doLater > p {
+  margin: 0;
+}
+
+.verify-acc > .input-section > form .hide {
+  opacity: 0.5;
+}
+
+@media (max-width: 750px) {
+  .verify-acc {
+    flex-direction: column;
+    padding: 30px 20px;
+  }
+}

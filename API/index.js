@@ -7,7 +7,12 @@ import authRouter from "./routers/authRouter.js";
 import postRouter from "./routers/postRouter.js";
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL, 
+    credentials: true, 
+  })
+);
 app.use(helmet());
 app.use(cookieParser());
 app.use(express.json());

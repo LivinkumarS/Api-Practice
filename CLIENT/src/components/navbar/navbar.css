@@ -6,15 +6,15 @@
   justify-content: space-between;
 }
 
-.navbar>div{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    cursor: pointer;
+.navbar > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
 }
 
-.navbar  img {
+.navbar img {
   width: 70px;
 }
 
@@ -24,7 +24,7 @@
   padding: 10px 15px;
   border-radius: 12px;
   cursor: pointer;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
 }
 
 .navbar .nav-btn:hover {
@@ -32,20 +32,65 @@
   font-weight: bold;
 }
 
+.navbar .profile-svg {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--button-color);
+}
 
-@media (max-width:500px) {
-  .navbar{
+.navbar .profile-svg svg {
+  font-size: larger;
+  color: aliceblue;
+}
+
+.navbar .profile-svg > .profile-option {
+  display: none;
+
+  background-color: var(--secondary-color);
+  border-radius: 10px;
+  box-shadow: 3px 3px 3px gray;
+  padding: 10px;
+
+  position: absolute;
+  bottom: 0;
+  transform: translateY(100%);
+  right:  0;
+}
+
+.navbar .profile-svg > .profile-option>h6{
+  padding: 5px;
+}
+
+.navbar .profile-svg > .profile-option>.link:hover{
+  background-color: rgb(197, 189, 189);
+}
+
+.navbar .profile-svg:hover {
+  box-shadow: 3px 3px 3px gray;
+}
+
+.navbar .profile-svg:hover > .profile-option {
+  display: block;
+}
+
+@media (max-width: 500px) {
+  .navbar {
     padding: 10px 20px;
   }
-  
-.navbar  img {
-  width: 50px;
-}
 
-.navbar>div>h2{
-  font-size: larger;
-}
-.navbar  .nav-btn {
-  padding: 7px 10px;
-}
+  .navbar img {
+    width: 50px;
+  }
+
+  .navbar > div > h2 {
+    font-size: larger;
+  }
+  .navbar .nav-btn {
+    padding: 7px 10px;
+  }
 }
