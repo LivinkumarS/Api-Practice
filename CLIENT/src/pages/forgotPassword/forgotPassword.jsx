@@ -1,21 +1,34 @@
-import React, { useContext, useEffect, useState } from "react";
-import "./verifyAccount.css";
-import Navbar from "../navbar/navbar";
-import { useNavigate, Link } from "react-router-dom";
-import { toast } from "react-toastify";
+import React, { useEffect, useState } from "react";
+import "./forgotPassword.css";
+import { useContext } from "react";
 import { userContext } from "../../App";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import Navbar from "../../components/navbar/navbar";
 import { FaArrowRight } from "react-icons/fa";
 
-export default function verifyAccount() {
+export default function forgotPassword() {
   const { userData, setUserData } = useContext(userContext);
   const navigate = useNavigate();
+
   const [load, setLoad] = useState(false);
   const [otpSent, setOtpSent] = useState(false);
 
-  const [formData, setFormData] = useState({ email: "", providedCode: "" });
+  const [formData, setFormData] = useState({
+    email: "",
+    providedCode: "",
+    newPassword: "",
+  });
   const [canResend, setCanResend] = useState(false);
 
   const [timeLeft, setTimeLeft] = useState(300);
+
+  useEffect(() => {
+    if (userData.email) {
+      toast.warn("Already Signed In");
+      navigate("/");
+    }
+  }, [userData]);
 
   useEffect(() => {
     if (otpSent && timeLeft > 0) {
@@ -27,22 +40,8 @@ export default function verifyAccount() {
     }
   }, [otpSent, timeLeft]);
 
-  useEffect(() => {
-    if (!userData.email) {
-      navigate("/sign-in");
-    }
-    if (userData.verified) {
-      toast.success("Already verified!");
-      navigate("/");
-    }
-  }, [userData]);
-
   async function sendOTP(e) {
     e.preventDefault();
-
-    if (formData.email !== userData.email) {
-      return toast.error("Wrong mail Id");
-    }
     setCanResend(false);
     if (formData.email === "") {
       return toast.error("Fill out all the fields");
@@ -52,7 +51,7 @@ export default function verifyAccount() {
       setLoad(true);
 
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/auth/send-verification-code`,
+        `${import.meta.env.VITE_API_URL}/api/auth/send-forgotpassword-code`,
         {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
@@ -64,6 +63,8 @@ export default function verifyAccount() {
       const res = await response.json();
 
       if (!response.ok) {
+        setOtpSent(false);
+        setLoad(false);
         return toast.error(res.message);
       } else {
         setLoad(false);
@@ -80,7 +81,7 @@ export default function verifyAccount() {
     e.preventDefault();
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/auth/verify-verification-code`,
+        `${import.meta.env.VITE_API_URL}/api/auth/verify-forgotpassword-code`,
         {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
@@ -98,11 +99,12 @@ export default function verifyAccount() {
         setCanResend(false);
         setTimeLeft(300);
         setFormData({ email: "", providedCode: "" });
-        setUserData((prev) => {
-          return { ...prev, verified: true };
-        });
-        return toast.success(res.message);
+        toast.success(res.message);
+
+        navigate("/sign-in");
       }
+
+      return setFormData({ email: "", providedCode: "" });
     } catch (error) {
       toast.error(error.message);
     }
@@ -117,18 +119,18 @@ export default function verifyAccount() {
   return (
     <div>
       <Navbar />
-      <div className="verify-acc">
+      <div className="forgot-pass">
         <section className="text-section">
-          <h2>Verify Your Account</h2>
+          <h2>Forgot Password</h2>
           <p>
             To verify your email, we have sent a 6-digit OTP (One-Time Password)
             to your registered email address. Please enter the OTP in the field
-            provided and click the "Verify" button. If the OTP is correct, your
-            email will be successfully verified, and you will be redirected to
-            your account. If you didn't receive the OTP, you can click the
-            "Resend OTP" button to request a new one. This verification step
-            ensures the security of your account and helps us confirm that the
-            email provided belongs to you.
+            provided and click the "Verify" button. If the OTP is correct, you
+            can change your current password, and you will be redirected to Sign
+            in page. If you didn't receive the OTP, you can click the "Resend
+            OTP" button to request a new one. This verification step ensures the
+            security of your account and helps us confirm that the email
+            provided belongs to you.
           </p>
         </section>
         <section className="input-section">
@@ -156,7 +158,7 @@ export default function verifyAccount() {
           </form>
 
           <form onSubmit={verifyOTP}>
-            <div className={otpSent ? "" : "hide"}>
+            <div className={otpSent ? "otp-cont" : "hide otp-cont"}>
               <label htmlFor="otp">Verification Code: </label>
               <input
                 type="number"
@@ -168,6 +170,22 @@ export default function verifyAccount() {
                 onChange={(e) => {
                   setFormData((prev) => {
                     return { ...prev, providedCode: e.target.value };
+                  });
+                }}
+              />
+            </div>
+            <div className={otpSent ? "pass-cont" : "hide pass-cont"}>
+              <label htmlFor="otp">New password: </label>
+              <input
+                type="password"
+                name="newPassword"
+                placeholder="new password"
+                id="otp"
+                disabled={!otpSent}
+                value={formData.password}
+                onChange={(e) => {
+                  setFormData((prev) => {
+                    return { ...prev, newPassword: e.target.value };
                   });
                 }}
               />
@@ -185,13 +203,6 @@ export default function verifyAccount() {
                 {otpSent &&
                   !canResend &&
                   `Resend OTP in ${formatTime(timeLeft)}`}
-                <div
-                  onClick={() => {
-                    navigate("/");
-                  }}
-                >
-                  Do it later <FaArrowRight />
-                </div>
               </div>
             </div>
           </form>

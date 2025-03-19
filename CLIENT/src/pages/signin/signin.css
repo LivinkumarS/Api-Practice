@@ -54,11 +54,10 @@
   gap: 10px;
 }
 
-
-.sign-in > .input-field > form > div>label{
-    width: min-content;
-    font-weight: bold;
-  }
+.sign-in > .input-field > form > div > label {
+  width: min-content;
+  font-weight: bold;
+}
 
 .sign-in > .input-field > form > div > input {
   flex: 1;
@@ -79,21 +78,31 @@
   cursor: pointer;
 }
 
-
-@media (max-width:700px) {
-    .sign-in{
-        flex-direction: column;
-    }
+.sign-in > .input-field .forgot-password {
+  margin-top: 10px;
+  width: 100%;
+  max-width: 300px;
+  text-align: center;
 }
 
-@media (max-width:370px) {
-    .sign-in > .text-field img{
-        width: 70px;
-    }
-    .sign-in > .text-field>div>h2{
-        font-size: x-large;
-    }
-    .sign-in > .input-field > form>h3{
-        font-size: larger;
-    }
+.sign-in > .input-field .forgot-password>a{
+  color: var(--button-color);
+}
+
+@media (max-width: 700px) {
+  .sign-in {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 370px) {
+  .sign-in > .text-field img {
+    width: 70px;
+  }
+  .sign-in > .text-field > div > h2 {
+    font-size: x-large;
+  }
+  .sign-in > .input-field > form > h3 {
+    font-size: larger;
+  }
 }

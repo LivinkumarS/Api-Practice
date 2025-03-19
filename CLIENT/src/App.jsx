@@ -5,6 +5,7 @@ import Home from "./pages/home/home";
 import Signin from "./pages/signin/signin";
 import Signup from "./pages/signup/signup";
 import VerifyAccount from "./components/verifyAccount/verifyAccount";
+import ForgotPassword from "./pages/forgotPassword/forgotPassword";
 
 export const userContext = createContext();
 
@@ -43,6 +44,7 @@ export default function App() {
           <Route path="/sign-in" element={<Signin />} />
           <Route path="/sign-up" element={<Signup />} />
           <Route path="/verify-account" element={<VerifyAccount />} />
+          <Route path="/forget-password" element={<ForgotPassword />} />
         </Routes>
       </userContext.Provider>
     </BrowserRouter>

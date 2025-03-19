@@ -98,6 +98,10 @@ export default function signin() {
 
             <button type="submit">Submit</button>
           </form>
+
+          <p className="forgot-password">
+            <Link to="/forget-password">forgot password</Link>
+          </p>
         </section>
       </div>
     </div>
