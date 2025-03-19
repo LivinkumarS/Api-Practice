@@ -7,13 +7,15 @@ import {
 import Posts from "../models/postModel.js";
 
 export const createPost = async (req, res) => {
-  const { title, description } = req.body;
+  const { title, description, category, code } = req.body;
   const { userId, verified } = req.user;
 
   try {
     const { error, value } = createPostValidator.validate({
       title,
       description,
+      category,
+      code,
       userId,
     });
 
@@ -35,6 +37,8 @@ export const createPost = async (req, res) => {
       title,
       description,
       userId,
+      category,
+      code,
     });
 
     return res.status(200).json({
@@ -52,8 +56,8 @@ export const getAllPost = async (req, res) => {
   const limiter = postPerPage ? Number(postPerPage) : 10;
   try {
     let pageNum = 0;
-    if (Number(page) <= 1) pageNum = 0;
-    else pageNum = Number(page) - 1;
+    if (Number(page) <= 1) pageNum = 1;
+    else pageNum = Number(page);
 
     const filter = searchTerm
       ? {
@@ -67,8 +71,7 @@ export const getAllPost = async (req, res) => {
     const totalPosts = await Posts.countDocuments(filter);
     const posts = await Posts.find(filter)
       .sort({ createdAt: -1 })
-      .skip(pageNum * limiter)
-      .limit(limiter)
+      .limit(pageNum * limiter)
       .populate({
         path: "userId",
         select: "email",
@@ -113,7 +116,7 @@ export const getPost = async (req, res) => {
 
 export const updatePost = async (req, res) => {
   const { postId } = req.params;
-  const { title, description } = req.body;
+  const { title, description, category, code } = req.body;
   const { userId } = req.user;
 
   try {
@@ -122,6 +125,8 @@ export const updatePost = async (req, res) => {
       description,
       postId,
       userId,
+      code,
+      category,
     });
     if (error) {
       return res.status(401).json({
@@ -143,6 +148,8 @@ export const updatePost = async (req, res) => {
 
     currentPost.title = title;
     currentPost.description = description;
+    currentPost.category = category;
+    currentPost.code = code;
 
     await currentPost.save();
 

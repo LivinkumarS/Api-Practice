@@ -71,6 +71,8 @@ export const FPvalidator = Joi.object({
 export const createPostValidator = Joi.object({
   title: Joi.string().min(6).max(600).required(),
   description: Joi.string().required(),
+  category: Joi.string().required(),
+  code: Joi.string().required(),
   userId: Joi.string().required(),
 });
 
@@ -81,6 +83,8 @@ export const getSinglePostValidator = Joi.object({
 export const updatePostValidator = Joi.object({
   title: Joi.string().min(6).max(600).required(),
   description: Joi.string().required(),
+  category: Joi.string().required(),
+  code: Joi.string().required(),
   userId: Joi.string().required(),
   postId: Joi.string().required(),
 });

@@ -28,7 +28,7 @@ export const checkSign = async (req, res) => {
       return res
         .cookie("Authorization", `Bearer ${token}`, {
           expires: new Date(Date.now() + 8 * 36000000),
-          httpOnly: process.env.NODE_ENV === "production",
+          httpOnly: process.env.NODE_ENV === "production", 
           secure: process.env.NODE_ENV === "production",
         })
         .status(201)
