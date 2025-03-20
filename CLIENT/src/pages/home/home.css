@@ -67,17 +67,17 @@
   border-radius: 8px;
 }
 
-.home .posts-container .post-card >.head{
+.home .posts-container .post-card > .head {
   display: flex;
-  align-items: center;
+  align-items: start;
   justify-content: space-between;
+  gap: 10px;
 }
 
-.home .posts-container .post-card >.head>.like-cont{
+.home .posts-container .post-card > .head .like-cont {
   cursor: pointer;
   padding: 3px 5px;
   border-radius: 10px;
-  box-shadow: 3px 3px 3px gray;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -86,9 +86,31 @@
   font-size: x-large;
   color: var(--button-color);
 }
+.home .posts-container .post-card > .head .like-cont:hover {
+  box-shadow: 3px 3px 3px gray;
+}
 
-.home .posts-container .post-card >.head>.like-cont>span{
+.home .posts-container .post-card > .head .like-cont > span {
   font-size: medium;
+}
+
+.home .posts-container .post-card > .head > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.home .posts-container .post-card > .head > div > button {
+  padding: 7px 12px;
+  color: #f4f4f4;
+  background-color: var(--button-color);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.home .posts-container .post-card > .head > div > button:hover {
+  box-shadow: 3px 3px 3px gray;
 }
 
 .home .posts-container .post-card h5 {

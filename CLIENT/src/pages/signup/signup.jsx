@@ -10,6 +10,7 @@ export default function signup() {
   const { userData, setUserData } = useContext(userContext);
   const [showWarn, setShowWarn] = useState(false);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     email: "",
@@ -18,12 +19,15 @@ export default function signup() {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    setLoading(true);
 
     if (formData.email === "" || formData.password === "") {
+      setLoading(false);
       return toast.error("Please fillout all input fields");
     }
 
     if (showWarn) {
+      setLoading(false);
       return toast.error("Password is not matching");
     }
 
@@ -47,6 +51,7 @@ export default function signup() {
       );
     }
     if (errors.length > 0) {
+      setLoading(false);
       return errors.forEach((error) => toast.error(error));
     }
 
@@ -62,11 +67,13 @@ export default function signup() {
       );
       const res = await response.json();
       if (!response.ok) {
+        setLoading(false);
         return toast.error(res.message);
       }
       setFormData({ email: "", password: "" });
       toast.success("Signed up successfully");
       navigate("/sign-in");
+      setLoading(false);
     } catch (error) {
       toast.error(error.message);
     }
@@ -132,8 +139,9 @@ export default function signup() {
 
               {showWarn && <p>password is not matching</p>}
             </div>
-
-            <button type="submit">Submit</button>
+            <button type="submit" disabled={loading}>
+              {loading ? "Loading..." : "submit"}
+            </button>
           </form>
         </section>
       </div>

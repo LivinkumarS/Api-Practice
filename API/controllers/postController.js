@@ -1,3 +1,4 @@
+import transport from "../middlewares/sendMail.js";
 import {
   createPostValidator,
   deletePostValidator,
@@ -145,9 +146,6 @@ export const updatePost = async (req, res) => {
 
     const currentPost = await Posts.findById(postId);
     if (currentPost.userId.toString() !== userId) {
-      console.log(userId);
-      console.log(currentPost.userId);
-
       return res.status(401).json({
         success: false,
         message: "Creator only can edit this post",
@@ -185,7 +183,10 @@ export const deletePost = async (req, res) => {
       });
     }
 
-    const currentPost = await Posts.findById(postId);
+    const currentPost = await Posts.findById(postId).populate({
+      path: "userId",
+      select: "email",
+    });
 
     if (!currentPost) {
       return res.status(401).json({
@@ -194,7 +195,10 @@ export const deletePost = async (req, res) => {
       });
     }
 
-    if (currentPost.userId.toString() !== userId) {
+    if (
+      currentPost.userId._id.toString() !== userId &&
+      userId !== process.env.ADMIN_USER_ID
+    ) {
       return res.status(401).json({
         success: false,
         message: "Creator only can delete post",
@@ -202,6 +206,43 @@ export const deletePost = async (req, res) => {
     }
 
     await Posts.findByIdAndDelete(postId);
+
+    if (
+      userId === process.env.ADMIN_USER_ID &&
+      currentPost.userId._id.toString() !== process.env.ADMIN_USER_ID
+    ) {
+      const info = await transport.sendMail({
+        from: process.env.NODE_CODE_SENDING_EMAIL_ADDRESS,
+        to: currentPost.userId.email,
+        subject: "❌ Your Post Has Been Deleted",
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 500px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);">
+            <h2 style="text-align: center; color: #d9534f;">❌ Post Deleted</h2>
+            <p style="text-align: center; color: #555; font-size: 16px;">
+              Your post <strong>"${currentPost.title}"</strong> has been deleted by the admin.
+            </p>
+            <p style="color: #777; font-size: 14px; text-align: center;">
+              If you believe this was a mistake or have any questions, you can contact the admin.
+            </p>
+            <div style="text-align: center; margin: 20px 0;">
+              <span style="font-size: 16px; font-weight: bold; color: #d9534f; background: #f4f4f4; padding: 10px 20px; border-radius: 5px; display: inline-block;">
+                Admin Email: <a href="mailto:slivinkumarkrr@gmail.com" style="text-decoration: none; color: #d9534f;">slivinkumarkrr@gmail.com</a>
+              </span>
+            </div>
+            <hr style="border: 0; border-top: 1px solid #ddd; margin: 20px 0;" />
+            <p style="text-align: center; color: #777; font-size: 12px;">
+              If you did not create this post or no longer need assistance, you can ignore this email.
+            </p>
+          </div>
+        `,
+      });
+
+      if (info.accepted[0] === currentPost.userId.email) {
+        return res
+          .status(201)
+          .json({ success: true, message: "Message  sent!" });
+      }
+    }
 
     return res.status(200).json({
       success: true,

@@ -9,6 +9,7 @@ import { userContext } from "../../App";
 export default function signin() {
   const { userData, setUserData } = useContext(userContext);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     email: "",
@@ -17,6 +18,7 @@ export default function signin() {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    setLoading(true);
 
     if (formData.email === "" || formData.password === "") {
       return toast.error("Please fillout all input fields");
@@ -34,6 +36,7 @@ export default function signin() {
       );
       const res = await response.json();
       if (!response.ok) {
+        setLoading(false);
         return toast.error(res.message);
       }
       setFormData({ email: "", password: "" });
@@ -45,6 +48,8 @@ export default function signin() {
       } else {
         navigate("/verify-account");
       }
+
+      setLoading(false);
     } catch (error) {
       toast.error(error.message);
     }
@@ -96,7 +101,9 @@ export default function signin() {
               />
             </div>
 
-            <button type="submit">Submit</button>
+            <button type="submit" disabled={loading}>
+              {loading ? "Loading..." : "submit"}
+            </button>
           </form>
 
           <p className="forgot-password">

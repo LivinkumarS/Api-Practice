@@ -56,7 +56,7 @@ export default function Home() {
 
   const handleLikePost = async (postId) => {
     if (!userData.userId) {
-     return toast.error("Signin to Like the Post");
+      return toast.error("Signin to Like the Post");
     }
 
     const response = await fetch(
@@ -91,14 +91,35 @@ export default function Home() {
     );
   };
 
+  const handleDeletePost = async (postId) => {
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/api/post/delete/${postId}`,
+      {
+        method: "DELETE",
+        credentials: "include",
+      }
+    );
+
+    const res = await response.json();
+    if (!response.ok) {
+      return toast.error(res.message);
+    }
+    setPosts((prev) => {
+      return prev.filter((ele) => {
+        return ele._id !== postId;
+      });
+    });
+    return toast.success(res.message);
+  };
+
   return (
     <div>
       <Navbar />
       <div className="home">
-        <h4>
+        <h5>
           Welcome...!{" "}
           <span style={{ color: "var(--button-color)" }}>{userData.email}</span>
-        </h4>
+        </h5>
         <p>
           Welcome to{" "}
           <span style={{ color: "var(--button-color)" }}>Saala's Point</span>, a
@@ -208,19 +229,34 @@ export default function Home() {
                         </span>
                       </h5>
 
-                      <div
-                        onClick={() => {
-                          handleLikePost(post._id);
-                        }}
-                        className="like-cont"
-                      >
-                        {post.likes.includes(userData.userId) ? (
-                          <AiFillLike />
-                        ) : (
-                          <AiOutlineLike />
-                        )}
+                      <div>
+                        {userData.userId &&
+                          (post.userId._id === userData.userId ||
+                            userData.userId.toString() ===
+                              import.meta.env.VITE_ADMIN_USER_ID) && (
+                            <button
+                              onClick={() => {
+                                handleDeletePost(post._id);
+                              }}
+                            >
+                              Delete
+                            </button>
+                          )}
 
-                        <span>{post.noOfLikes}</span>
+                        <div
+                          onClick={() => {
+                            handleLikePost(post._id);
+                          }}
+                          className="like-cont"
+                        >
+                          {post.likes.includes(userData.userId) ? (
+                            <AiFillLike />
+                          ) : (
+                            <AiOutlineLike />
+                          )}
+
+                          <span>{post.noOfLikes}</span>
+                        </div>
                       </div>
                     </div>
                     <p className="category">
@@ -241,7 +277,7 @@ export default function Home() {
                       </SyntaxHighlighter>
                     </div>
 
-                    <p style={{ fontSize: "small" }}>{post.description}</p>
+                    <p style={{ fontSize: "smaller" }}>{post.description}</p>
                     <p style={{ fontSize: "small", color: "gray" }}>
                       {new Date(post.createdAt).toLocaleDateString()}
                     </p>
