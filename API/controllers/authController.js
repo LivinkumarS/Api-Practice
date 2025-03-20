@@ -28,7 +28,7 @@ export const checkSign = async (req, res) => {
       return res
         .cookie("Authorization", `Bearer ${token}`, {
           expires: new Date(Date.now() + 8 * 36000000),
-          httpOnly: process.env.NODE_ENV === "production", 
+          httpOnly: process.env.NODE_ENV === "production",
           secure: process.env.NODE_ENV === "production",
         })
         .status(201)
@@ -258,7 +258,21 @@ export const verifyVerificationCode = async (req, res) => {
       currentUser.verificationCodeValidation = undefined;
       await currentUser.save();
 
+      const token = jwt.sign(
+        {
+          userId: currentUser._id,
+          email: currentUser.email,
+          verified: currentUser.verified,
+        },
+        process.env.TOKEN_SECRET
+      );
+
       return res
+        .cookie("Authorization", `Bearer ${token}`, {
+          expires: new Date(Date.now() + 8 * 36000000),
+          httpOnly: process.env.NODE_ENV === "production",
+          secure: process.env.NODE_ENV === "production",
+        })
         .status(200)
         .json({ success: true, message: "Your account is verified!" });
     } else {

@@ -6,6 +6,7 @@ import Signin from "./pages/signin/signin";
 import Signup from "./pages/signup/signup";
 import VerifyAccount from "./components/verifyAccount/verifyAccount";
 import ForgotPassword from "./pages/forgotPassword/forgotPassword";
+import CreatePost from "./pages/createPost/createPost";
 
 export const userContext = createContext();
 
@@ -45,6 +46,7 @@ export default function App() {
           <Route path="/sign-up" element={<Signup />} />
           <Route path="/verify-account" element={<VerifyAccount />} />
           <Route path="/forget-password" element={<ForgotPassword />} />
+          <Route path="/create-post" element={<CreatePost />} />
         </Routes>
       </userContext.Provider>
     </BrowserRouter>

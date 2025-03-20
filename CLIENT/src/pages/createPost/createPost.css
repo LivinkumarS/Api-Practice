@@ -1,0 +1,67 @@
+.create-post {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.create-post > form {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+.create-post > form > * {
+  width: 100%;
+  padding: 20px;
+}
+
+.create-post > form > textarea {
+  border-radius: 15px;
+  box-shadow: 3px 3px 3px gray;
+  outline: 0;
+}
+
+.create-post > form > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 10px;
+}
+
+.create-post > form > div > input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 15px;
+  box-shadow: 3px 3px 3px gray;
+  outline: 0;
+}
+
+.create-post > form > div > select {
+  padding: 10px;
+  border-radius: 15px;
+  box-shadow: 3px 3px 3px gray;
+  outline: 0;
+}
+
+.create-post > form > button {
+  background-color: var(--button-color);
+  color: aliceblue;
+  font-weight: bold;
+  border-radius: 15px;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.create-post > form > button:hover {
+  box-shadow: 3px 3px 3px gray;
+}
