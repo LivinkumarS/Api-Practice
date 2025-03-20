@@ -55,6 +55,10 @@ export default function Home() {
   };
 
   const handleLikePost = async (postId) => {
+    if (!userData.userId) {
+     return toast.error("Signin to Like the Post");
+    }
+
     const response = await fetch(
       `${import.meta.env.VITE_API_URL}/api/post/like-post/${postId}`,
       {
@@ -73,19 +77,18 @@ export default function Home() {
       prev.map((ele) => {
         if (ele._id === postId) {
           const isLiked = ele.likes.includes(userData.userId);
-    
+
           return {
             ...ele,
             likes: isLiked
-              ? ele.likes.filter((id) => id !== userData.userId) 
+              ? ele.likes.filter((id) => id !== userData.userId)
               : [...ele.likes, userData.userId],
-            noOfLikes: isLiked ? ele.noOfLikes - 1 : ele.noOfLikes + 1, 
+            noOfLikes: isLiked ? ele.noOfLikes - 1 : ele.noOfLikes + 1,
           };
         }
         return ele;
       })
     );
-    
   };
 
   return (
