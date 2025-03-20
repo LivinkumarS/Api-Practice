@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { AiOutlineLike, AiFillLike } from "react-icons/ai";
+import { IoClose } from "react-icons/io5";
 
 export default function Home() {
   const { userData } = useContext(userContext);
@@ -14,6 +15,7 @@ export default function Home() {
   const [searchTerm, setSearchTerm] = useState("");
   const [totalPosts, setTotalPosts] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [category, setCategory] = useState("");
 
   const fetchPosts = async () => {
     setLoading(true);
@@ -21,7 +23,7 @@ export default function Home() {
       const response = await fetch(
         `${
           import.meta.env.VITE_API_URL
-        }/api/post/all-post?searchTerm=${searchTerm}&postPerPage=10&page=${page}`,
+        }/api/post/all-post?searchTerm=${searchTerm}&postPerPage=10&page=${page}&category=${category}`,
         {
           method: "GET",
           credentials: "include",
@@ -45,11 +47,45 @@ export default function Home() {
 
   useEffect(() => {
     fetchPosts();
-  }, [page, searchTerm]);
+  }, [page, searchTerm, category]);
 
   const copyToClipboard = (code) => {
     navigator.clipboard.writeText(code);
     toast.success("Code copied to clipboard!");
+  };
+
+  const handleLikePost = async (postId) => {
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/api/post/like-post/${postId}`,
+      {
+        method: "GET",
+        credentials: "include",
+      }
+    );
+
+    const res = await response.json();
+
+    if (!response.ok) {
+      return toast.error(res.message);
+    }
+
+    setPosts((prev) =>
+      prev.map((ele) => {
+        if (ele._id === postId) {
+          const isLiked = ele.likes.includes(userData.userId);
+    
+          return {
+            ...ele,
+            likes: isLiked
+              ? ele.likes.filter((id) => id !== userData.userId) 
+              : [...ele.likes, userData.userId],
+            noOfLikes: isLiked ? ele.noOfLikes - 1 : ele.noOfLikes + 1, 
+          };
+        }
+        return ele;
+      })
+    );
+    
   };
 
   return (
@@ -70,7 +106,81 @@ export default function Home() {
         </p>
 
         <div className="search-cont">
-          <h3>Latest Posts</h3>{" "}
+          <div className="head-cat">
+            <h3>Latest Posts</h3>
+            <div>
+              <span
+                onClick={() => {
+                  setCategory((prev) => {
+                    return prev === "HTML" ? "" : "HTML";
+                  });
+                }}
+              >
+                HTML{" "}
+                {category === "HTML" && (
+                  <div>
+                    <IoClose />
+                  </div>
+                )}
+              </span>
+              <span
+                onClick={() => {
+                  setCategory((prev) => {
+                    return prev === "CSS" ? "" : "CSS";
+                  });
+                }}
+              >
+                CSS{" "}
+                {category === "CSS" && (
+                  <div>
+                    <IoClose />
+                  </div>
+                )}
+              </span>
+              <span
+                onClick={() => {
+                  setCategory((prev) => {
+                    return prev === "JavaScript" ? "" : "JavaScript";
+                  });
+                }}
+              >
+                JavaScript{" "}
+                {category === "JavaScript" && (
+                  <div>
+                    <IoClose />
+                  </div>
+                )}
+              </span>
+              <span
+                onClick={() => {
+                  setCategory((prev) => {
+                    return prev === "React" ? "" : "React";
+                  });
+                }}
+              >
+                React{" "}
+                {category === "React" && (
+                  <div>
+                    <IoClose />
+                  </div>
+                )}
+              </span>
+              <span
+                onClick={() => {
+                  setCategory((prev) => {
+                    return prev === "Others" ? "" : "Others";
+                  });
+                }}
+              >
+                Others{" "}
+                {category === "Others" && (
+                  <div>
+                    <IoClose />
+                  </div>
+                )}
+              </span>
+            </div>
+          </div>
           <input
             type="text"
             onChange={(e) => {
@@ -95,7 +205,20 @@ export default function Home() {
                         </span>
                       </h5>
 
-                      <div className="like-cont"></div>
+                      <div
+                        onClick={() => {
+                          handleLikePost(post._id);
+                        }}
+                        className="like-cont"
+                      >
+                        {post.likes.includes(userData.userId) ? (
+                          <AiFillLike />
+                        ) : (
+                          <AiOutlineLike />
+                        )}
+
+                        <span>{post.noOfLikes}</span>
+                      </div>
                     </div>
                     <p className="category">
                       Category:{" "}
@@ -115,7 +238,7 @@ export default function Home() {
                       </SyntaxHighlighter>
                     </div>
 
-                    <p>{post.description}</p>
+                    <p style={{ fontSize: "small" }}>{post.description}</p>
                     <p style={{ fontSize: "small", color: "gray" }}>
                       {new Date(post.createdAt).toLocaleDateString()}
                     </p>

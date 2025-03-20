@@ -92,3 +92,7 @@ export const updatePostValidator = Joi.object({
 export const deletePostValidator = Joi.object({
   postId: Joi.string().required(),
 });
+
+export const likePostValidator = Joi.object({
+  postId: Joi.string().required(),
+});

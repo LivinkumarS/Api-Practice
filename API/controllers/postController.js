@@ -2,6 +2,7 @@ import {
   createPostValidator,
   deletePostValidator,
   getSinglePostValidator,
+  likePostValidator,
   updatePostValidator,
 } from "../middlewares/validator.js";
 import Posts from "../models/postModel.js";
@@ -52,21 +53,28 @@ export const createPost = async (req, res) => {
 };
 
 export const getAllPost = async (req, res) => {
-  const { page, postPerPage, searchTerm } = req.query;
+  const { page, postPerPage, searchTerm, category } = req.query;
   const limiter = postPerPage ? Number(postPerPage) : 10;
   try {
     let pageNum = 0;
     if (Number(page) <= 1) pageNum = 1;
     else pageNum = Number(page);
 
-    const filter = searchTerm
-      ? {
-          $or: [
-            { title: { $regex: searchTerm, $options: "i" } },
-            { description: { $regex: searchTerm, $options: "i" } },
-          ],
-        }
-      : {};
+    const filter =
+      searchTerm || category
+        ? {
+            $and: [
+              {
+                $or: [
+                  { title: { $regex: searchTerm, $options: "i" } },
+                  { description: { $regex: searchTerm, $options: "i" } },
+                  { code: { $regex: searchTerm, $options: "i" } },
+                ],
+              },
+              category ? { category: { $regex: category, $options: "i" } } : {},
+            ],
+          }
+        : {};
 
     const totalPosts = await Posts.countDocuments(filter);
     const posts = await Posts.find(filter)
@@ -178,6 +186,14 @@ export const deletePost = async (req, res) => {
     }
 
     const currentPost = await Posts.findById(postId);
+
+    if (!currentPost) {
+      return res.status(401).json({
+        success: false,
+        message: "No post found",
+      });
+    }
+
     if (currentPost.userId.toString() !== userId) {
       return res.status(401).json({
         success: false,
@@ -193,5 +209,48 @@ export const deletePost = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const likePost = async (req, res) => {
+  const { postId } = req.params;
+  const { userId } = req.user;
+
+  try {
+    const { error, value } = likePostValidator.validate({ postId });
+
+    if (error) {
+      return res.status(400).json({
+        success: false,
+        message: error.details[0].message,
+      });
+    }
+
+    const currentPost = await Posts.findById(postId);
+
+    if (!currentPost) {
+      return res.status(404).json({
+        success: false,
+        message: "No post found",
+      });
+    }
+
+    if (currentPost.likes.includes(userId)) {
+      currentPost.likes = currentPost.likes.filter((ele) => ele !== userId);
+      currentPost.noOfLikes--;
+    } else {
+      currentPost.likes.push(userId);
+      currentPost.noOfLikes++;
+    }
+
+    await currentPost.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Like status updated successfully",
+      likes: currentPost.likes.length,
+    });
+  } catch (error) {
+    console.error(error);
   }
 };
