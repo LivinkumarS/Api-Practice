@@ -46,29 +46,49 @@ export default function Navbar({ hideSignIn }) {
         <h2>Saala's Point</h2>
       </div>
 
-      {!hideSignIn ? (
-        !userData.email ? (
-          <Link to="/sign-in">
-            <button className="nav-btn">Sign in</button>
-          </Link>
-        ) : (
-          <div className="profile-svg">
-            <CiUser />
-            <div className="profile-option">
-              <h6>{userData.email}</h6>
-              {userData.verified ? <h6>Verified✅</h6> : <h6>Not Verified</h6>}
-              {!userData.verified && (
-                <h6 className="link" onClick={() => navigate("/verify-account")}>Verify now!</h6>
-              )}
-              <h6 className="link" onClick={handleSignOut}>
-                signout
-              </h6>
+      <div className="right-cont">
+        <button
+          className="create-btn"
+          onClick={() => {
+            navigate("/create-post");
+          }}
+        >
+          Add Post
+        </button>
+
+        {!hideSignIn ? (
+          !userData.email ? (
+            <Link to="/sign-in">
+              <button className="nav-btn">Sign in</button>
+            </Link>
+          ) : (
+            <div className="profile-svg">
+              <CiUser />
+              <div className="profile-option">
+                <h6>{userData.email}</h6>
+                {userData.verified ? (
+                  <h6>Verified✅</h6>
+                ) : (
+                  <h6>Not Verified</h6>
+                )}
+                {!userData.verified && (
+                  <h6
+                    className="link"
+                    onClick={() => navigate("/verify-account")}
+                  >
+                    Verify now!
+                  </h6>
+                )}
+                <h6 className="link" onClick={handleSignOut}>
+                  signout
+                </h6>
+              </div>
             </div>
-          </div>
-        )
-      ) : (
-        <div></div>
-      )}
+          )
+        ) : (
+          <div></div>
+        )}
+      </div>
     </div>
   );
 }

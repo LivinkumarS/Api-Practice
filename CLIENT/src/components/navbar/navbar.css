@@ -32,6 +32,26 @@
   font-weight: bold;
 }
 
+.navbar .right-cont{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.navbar .right-cont>.create-btn{
+  cursor: pointer;
+  padding: 10px 12px;
+  border-radius: 10px;
+  color: aliceblue;
+  background-color: var(--button-color);
+  font-weight: bold;
+}
+
+.navbar .right-cont>.create-btn:hover{
+  box-shadow: 3px 3px 3px gray;
+}
+
 .navbar .profile-svg {
   position: relative;
   width: 40px;
@@ -80,17 +100,37 @@
 
 @media (max-width: 500px) {
   .navbar {
-    padding: 10px 20px;
+    padding: 10px 10px;
   }
 
   .navbar img {
-    width: 50px;
+    width: 40px;
   }
 
+.navbar div{
+  gap: 0;
+}
+
   .navbar > div > h2 {
-    font-size: larger;
+    font-size: medium;
   }
   .navbar .nav-btn {
     padding: 7px 10px;
   }
+
+  .navbar .right-cont>.create-btn{
+    padding: 7px 10px;
+    font-size: 13px;
+  }
+
+  .navbar .profile-svg{
+    width: 35px;
+    height: 35px;
+  }
+
+  .navbar .profile-svg svg {
+    font-size: large;
+  }
 }
+
+

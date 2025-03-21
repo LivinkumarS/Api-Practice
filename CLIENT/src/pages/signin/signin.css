@@ -91,6 +91,7 @@
 
 @media (max-width: 700px) {
   .sign-in {
+    gap: 0;
     flex-direction: column;
   }
 }

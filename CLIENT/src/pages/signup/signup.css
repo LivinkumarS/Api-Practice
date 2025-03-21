@@ -94,6 +94,7 @@
   @media (max-width:700px) {
       .sign-up{
           flex-direction: column;
+          gap: 0;
       }
   }
   

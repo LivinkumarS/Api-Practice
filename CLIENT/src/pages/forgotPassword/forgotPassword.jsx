@@ -5,7 +5,6 @@ import { userContext } from "../../App";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Navbar from "../../components/navbar/navbar";
-import { FaArrowRight } from "react-icons/fa";
 
 export default function forgotPassword() {
   const { userData, setUserData } = useContext(userContext);

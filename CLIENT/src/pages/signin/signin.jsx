@@ -43,7 +43,7 @@ export default function signin() {
       await setUserData(res.user);
       toast.success("Signed in successfully");
 
-      if (userData.verified) {
+      if (res.user.verified) {
         navigate("/");
       } else {
         navigate("/verify-account");

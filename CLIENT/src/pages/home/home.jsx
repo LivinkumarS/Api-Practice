@@ -3,10 +3,8 @@ import "./home.css";
 import Navbar from "../../components/navbar/navbar";
 import { userContext } from "../../App";
 import { toast } from "react-toastify";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
-import { AiOutlineLike, AiFillLike } from "react-icons/ai";
 import { IoClose } from "react-icons/io5";
+import PostCard from "../../components/postCard/postCard";
 
 export default function Home() {
   const { userData } = useContext(userContext);
@@ -92,6 +90,14 @@ export default function Home() {
   };
 
   const handleDeletePost = async (postId) => {
+    const okDelete = await window.confirm(
+      "Do You Really Want To Delete This Post?"
+    );
+
+    if (!okDelete) {
+      return;
+    }
+
     const response = await fetch(
       `${import.meta.env.VITE_API_URL}/api/post/delete/${postId}`,
       {
@@ -109,6 +115,7 @@ export default function Home() {
         return ele._id !== postId;
       });
     });
+    setTotalPosts((prev) => prev - 1);
     return toast.success(res.message);
   };
 
@@ -220,67 +227,13 @@ export default function Home() {
             <div className="posts-container">
               {posts.length > 0 ? (
                 posts.map((post) => (
-                  <div key={post._id} className="post-card">
-                    <div className="head">
-                      <h5>
-                        {post.title} {"   "}{" "}
-                        <span style={{ color: "gray", fontSize: "small" }}>
-                          ({post.userId.email}✅)
-                        </span>
-                      </h5>
-
-                      <div>
-                        {userData.userId &&
-                          (post.userId._id === userData.userId ||
-                            userData.userId.toString() ===
-                              import.meta.env.VITE_ADMIN_USER_ID) && (
-                            <button
-                              onClick={() => {
-                                handleDeletePost(post._id);
-                              }}
-                            >
-                              Delete
-                            </button>
-                          )}
-
-                        <div
-                          onClick={() => {
-                            handleLikePost(post._id);
-                          }}
-                          className="like-cont"
-                        >
-                          {post.likes.includes(userData.userId) ? (
-                            <AiFillLike />
-                          ) : (
-                            <AiOutlineLike />
-                          )}
-
-                          <span>{post.noOfLikes}</span>
-                        </div>
-                      </div>
-                    </div>
-                    <p className="category">
-                      Category:{" "}
-                      <span style={{ fontWeight: "bold" }}>
-                        {post.category}
-                      </span>
-                    </p>
-
-                    <div
-                      onClick={() => {
-                        copyToClipboard(post.code);
-                      }}
-                      style={{ cursor: "pointer" }}
-                    >
-                      <SyntaxHighlighter language="html" style={oneDark}>
-                        {post.code}
-                      </SyntaxHighlighter>
-                    </div>
-
-                    <p style={{ fontSize: "smaller" }}>{post.description}</p>
-                    <p style={{ fontSize: "small", color: "gray" }}>
-                      {new Date(post.createdAt).toLocaleDateString()}
-                    </p>
+                  <div key={post._id}>
+                    <PostCard
+                      copyToClipboard={copyToClipboard}
+                      handleDeletePost={handleDeletePost}
+                      handleLikePost={handleLikePost}
+                      post={post}
+                    />
                   </div>
                 ))
               ) : (
