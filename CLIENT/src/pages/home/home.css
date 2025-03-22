@@ -1,5 +1,6 @@
 .home {
   padding: 10px;
+  min-height: 80vh;
 }
 
 .home .search-cont {
@@ -74,7 +75,7 @@
   gap: 10px;
 }
 
-.home .posts-container .post-card>.code-container{
+.home .posts-container .post-card > .code-container {
   display: flex;
   flex-direction: column;
   gap: 0;
@@ -82,10 +83,10 @@
   justify-content: center;
 }
 
-.home .posts-container .post-card>.code-container>*{
+.home .posts-container .post-card > .code-container > * {
   width: 100%;
 }
-.home .posts-container .post-card>.code-container>button{
+.home .posts-container .post-card > .code-container > button {
   padding: 10px;
   background-color: gray;
   border-radius: 0px 0px 10px 10px;
@@ -95,18 +96,14 @@
   transform: translateY(-8px);
 }
 
-
-.home .posts-container .post-card>.code-container>button:hover{
+.home .posts-container .post-card > .code-container > button:hover {
   box-shadow: 2px 2px 2px gray;
 }
 
-.home .posts-container .post-card>.code-container>.short{
+.home .posts-container .post-card > .code-container > .short {
   height: 150px;
   overflow: hidden;
 }
-
-
-
 
 .home .posts-container .post-card > .head .like-cont {
   cursor: pointer;
