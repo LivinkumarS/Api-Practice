@@ -30,6 +30,8 @@ export const checkSign = async (req, res) => {
           expires: new Date(Date.now() + 8 * 36000000),
           httpOnly: process.env.NODE_ENV === "production",
           secure: process.env.NODE_ENV === "production",
+          sameSite: "None",
+          domain: "vercel.app",
         })
         .status(201)
         .json({
@@ -127,6 +129,8 @@ export const signIn = async (req, res) => {
         expires: new Date(Date.now() + 8 * 36000000),
         httpOnly: process.env.NODE_ENV === "production",
         secure: process.env.NODE_ENV === "production",
+        sameSite: "None",
+        domain: "vercel.app",
       })
       .status(201)
       .json({
@@ -272,6 +276,8 @@ export const verifyVerificationCode = async (req, res) => {
           expires: new Date(Date.now() + 8 * 36000000),
           httpOnly: process.env.NODE_ENV === "production",
           secure: process.env.NODE_ENV === "production",
+          sameSite: "None",
+          domain: "vercel.app",
         })
         .status(200)
         .json({ success: true, message: "Your account is verified!" });
