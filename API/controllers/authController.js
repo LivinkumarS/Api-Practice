@@ -147,7 +147,11 @@ export const signIn = async (req, res) => {
 
 export const signOut = async (req, res) => {
   res
-    .clearCookie("Authorization")
+    .clearCookie("Authorization", {
+      httpOnly: process.env.NODE_ENV === "production",
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "None",
+    })
     .status(200)
     .json({ success: true, message: "Loggedout Successfully" });
 };
