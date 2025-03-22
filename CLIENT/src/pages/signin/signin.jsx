@@ -5,6 +5,7 @@ import logoImg from "../../assets/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { userContext } from "../../App";
+import Footer from "../../components/footer/footer";
 
 export default function signin() {
   const { userData, setUserData } = useContext(userContext);
@@ -111,6 +112,7 @@ export default function signin() {
           </p>
         </section>
       </div>
+      <Footer />
     </div>
   );
 }

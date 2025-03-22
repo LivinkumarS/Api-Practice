@@ -5,6 +5,7 @@ import logoImg from "../../assets/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { userContext } from "../../App";
 import { toast } from "react-toastify";
+import Footer from "../../components/footer/footer";
 
 export default function signup() {
   const { userData, setUserData } = useContext(userContext);
@@ -145,6 +146,7 @@ export default function signup() {
           </form>
         </section>
       </div>
+      <Footer />
     </div>
   );
 }

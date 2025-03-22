@@ -5,6 +5,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { userContext } from "../../App";
 import { FaArrowRight } from "react-icons/fa";
+import Footer from "../footer/footer";
 
 export default function verifyAccount() {
   const { userData, setUserData } = useContext(userContext);
@@ -197,6 +198,7 @@ export default function verifyAccount() {
           </form>
         </section>
       </div>
+      <Footer />
     </div>
   );
 }

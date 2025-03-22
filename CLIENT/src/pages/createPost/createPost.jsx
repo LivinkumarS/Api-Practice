@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { userContext } from "../../App";
+import Footer from "../../components/footer/footer";
 
 export default function createPost() {
   const { userData } = useContext(userContext);
@@ -150,6 +151,7 @@ export default function createPost() {
           </button>
         </form>
       </div>
+      <Footer/>
     </div>
   );
 }

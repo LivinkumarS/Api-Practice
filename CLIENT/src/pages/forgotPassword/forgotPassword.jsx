@@ -5,6 +5,7 @@ import { userContext } from "../../App";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Navbar from "../../components/navbar/navbar";
+import Footer from "../../components/footer/footer";
 
 export default function forgotPassword() {
   const { userData, setUserData } = useContext(userContext);
@@ -207,6 +208,7 @@ export default function forgotPassword() {
           </form>
         </section>
       </div>
+      <Footer />
     </div>
   );
 }

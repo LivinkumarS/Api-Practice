@@ -1,0 +1,45 @@
+.footer {
+  background-color: var(--primary-color);
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 15px;
+  gap: 5px;
+}
+
+.footer > p {
+  color: gray;
+  font-size: small;
+  margin: 0;
+}
+
+.footer > p > a {
+  color: var(--button-color);
+  font-weight: bold;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.footer > p > a:hover{
+    text-decoration: underline;
+}
+
+.footer > .foot-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.footer > .foot-links > a {
+  color: black;
+  font-size: medium;
+  cursor: pointer;
+  transition: all 0.4s ease;
+}
+
+.footer > .foot-links > a:hover {
+  color: var(--button-color);
+}

@@ -5,6 +5,7 @@ import { userContext } from "../../App";
 import { toast } from "react-toastify";
 import { IoClose } from "react-icons/io5";
 import PostCard from "../../components/postCard/postCard";
+import Footer from "../../components/footer/footer";
 
 export default function Home() {
   const { userData } = useContext(userContext);
@@ -278,6 +279,7 @@ export default function Home() {
           </p>
         )}
       </div>
+      <Footer />
     </div>
   );
 }
