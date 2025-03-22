@@ -124,13 +124,14 @@ export default function forgotPassword() {
           <h2>Forgot Password</h2>
           <p>
             To verify your email, we have sent a 6-digit OTP (One-Time Password)
-            to your registered email address. Please enter the OTP in the field
-            provided and click the "Verify" button. If the OTP is correct, you
-            can change your current password, and you will be redirected to Sign
-            in page. If you didn't receive the OTP, you can click the "Resend
-            OTP" button to request a new one. This verification step ensures the
-            security of your account and helps us confirm that the email
-            provided belongs to you.
+            to your registered email address{" "}
+            <b>Check out the spam section too.</b>. Please enter the OTP in the
+            field provided and click the "Verify" button. If the OTP is correct,
+            you can change your current password, and you will be redirected to
+            Sign in page. If you didn't receive the OTP, you can click the
+            "Resend OTP" button to request a new one. This verification step
+            ensures the security of your account and helps us confirm that the
+            email provided belongs to you.
           </p>
         </section>
         <section className="input-section">

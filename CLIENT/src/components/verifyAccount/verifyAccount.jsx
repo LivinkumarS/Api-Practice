@@ -123,10 +123,11 @@ export default function verifyAccount() {
           <h2>Verify Your Account</h2>
           <p>
             To verify your email, we have sent a 6-digit OTP (One-Time Password)
-            to your registered email address. Please enter the OTP in the field
-            provided and click the "Verify" button. If the OTP is correct, your
-            email will be successfully verified, and you will be redirected to
-            your account. If you didn't receive the OTP, you can click the
+            to your registered email address{" "}
+            <b>Check out the spam section too.</b>. Please enter the OTP in the
+            field provided and click the "Verify" button. If the OTP is correct,
+            your email will be successfully verified, and you will be redirected
+            to your account. If you didn't receive the OTP, you can click the
             "Resend OTP" button to request a new one. This verification step
             ensures the security of your account and helps us confirm that the
             email provided belongs to you.
