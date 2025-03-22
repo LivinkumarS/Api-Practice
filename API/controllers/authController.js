@@ -31,7 +31,6 @@ export const checkSign = async (req, res) => {
           httpOnly: process.env.NODE_ENV === "production",
           secure: process.env.NODE_ENV === "production",
           sameSite: "None",
-          domain: "vercel.app",
         })
         .status(201)
         .json({
@@ -130,7 +129,6 @@ export const signIn = async (req, res) => {
         httpOnly: process.env.NODE_ENV === "production",
         secure: process.env.NODE_ENV === "production",
         sameSite: "None",
-        domain: "vercel.app",
       })
       .status(201)
       .json({
@@ -277,7 +275,6 @@ export const verifyVerificationCode = async (req, res) => {
           httpOnly: process.env.NODE_ENV === "production",
           secure: process.env.NODE_ENV === "production",
           sameSite: "None",
-          domain: "vercel.app",
         })
         .status(200)
         .json({ success: true, message: "Your account is verified!" });
