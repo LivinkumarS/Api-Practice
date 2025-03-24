@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { IoClose } from "react-icons/io5";
 import PostCard from "../../components/postCard/postCard";
 import Footer from "../../components/footer/footer";
+import PostSkeleton from "../../components/postSkeleton/PostSkeleton";
 
 export default function Home() {
   const { userData } = useContext(userContext);
@@ -267,16 +268,7 @@ export default function Home() {
             )}
           </>
         ) : (
-          <p
-            style={{
-              textAlign: "center",
-              fontWeight: "bold",
-              color: "var(--button-color)",
-              marginTop: "30px",
-            }}
-          >
-            Loading...
-          </p>
+          [...Array(5)].map((_, i) => <div key={i} style={{margin:"10px 0"}}><PostSkeleton/></div>)
         )}
       </div>
       <Footer />
